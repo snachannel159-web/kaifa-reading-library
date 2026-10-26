@@ -1,0 +1,42 @@
+name: Publish Kaifa Library
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Restore verified library
+        run: |
+          cat library-site.tar.gz.part-* > library-site.tar.gz
+          sha256sum -c SHA256SUMS
+          mkdir -p _site
+          tar -xzf library-site.tar.gz -C _site
+          test -f _site/index.html
+          node --check _site/app.js
+          node --check _site/books.js
+          node --check _site/video-book.js
+          node --check _site/pdf-source.js
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    if: github.event.repository.private == false
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment
+
