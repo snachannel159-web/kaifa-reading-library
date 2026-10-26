@@ -19,5 +19,7 @@ tar -xzf library-site.tar.gz -C site
 الحزمة تضم ملفات الواجهة والمحتوى فقط؛ لا تضم بيانات اعتماد أو أسرار الخادم.
 
 ## النشر
-ملف `.github/workflows/pages.yml` يفحص الحزمة ويجهزها تلقائيًا. يظل النشر العام متوقفًا ما دام المستودع خاصًا.
-بعد اعتماد الإتاحة العامة، اختر GitHub Actions من إعدادات Pages ثم شغّل Publish Kaifa Library.
+المكتبة منشورة على: https://snachannel159-web.github.io/kaifa-reading-library/
+
+المستودع Public، ومصدر GitHub Pages هو GitHub Actions. لتحديث النشر بعد تعديل الحزمة، شغّل **Publish Kaifa Library** يدويًا من Actions. يفحص سير العمل سلامة الحزمة ثم ينشر ملفات الموقع.
+
